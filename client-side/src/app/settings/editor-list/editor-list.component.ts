@@ -5,7 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { PepLayoutService, PepScreenSizeType } from '@pepperi-addons/ngx-lib';
 import { PepSelectionData } from '@pepperi-addons/ngx-lib/list';
 
-import { IPepGenericListDataSource, IPepGenericListActions } from "@pepperi-addons/ngx-composite-lib/generic-list";
+import { IPepGenericListDataSource, IPepGenericListActions, IPepGenericListParams } from "@pepperi-addons/ngx-composite-lib/generic-list";
+import { TasksService } from "src/app/services/tasks.service";
 
 @Component({
     selector: 'editor-list',
@@ -19,7 +20,8 @@ export class EditorListComponent implements OnInit {
         public router: Router,
         public route: ActivatedRoute,
         public layoutService: PepLayoutService,
-        public translate: TranslateService
+        public translate: TranslateService,
+        private taskService: TasksService
     ) {
         this.layoutService.onResize$.subscribe(size => {
             this.screenSize = size;
@@ -35,6 +37,7 @@ export class EditorListComponent implements OnInit {
     
     listDataSource: IPepGenericListDataSource = {
         init: async (state) => {
+            const items = await this.getTasks(state);
             return {
                 dataView: {
                     Context: {
@@ -81,18 +84,8 @@ export class EditorListComponent implements OnInit {
                       FrozenColumnsCount: 0,
                       MinimumColumnWidth: 0
                 }, 
-                items: [{
-                    Key: 'key1',
-                    Title: 'My first task',
-                    Description: 'A very long description of a task',
-                    StartDateTime: new Date().toISOString()
-                },
-                {
-                    Key: 'key1',
-                    Field1: 'World',
-                    Field2: false
-                }], 
-                totalCount: 2       
+                items: items, 
+                totalCount: items.length       
             }
         }
         
@@ -112,5 +105,11 @@ export class EditorListComponent implements OnInit {
                 }]
             } else return []
         }
+    }
+
+    async getTasks(state: IPepGenericListParams) {
+        return this.taskService.getTasks({
+            search: state.searchString
+        })
     }
 }
