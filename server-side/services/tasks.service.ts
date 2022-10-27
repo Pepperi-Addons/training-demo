@@ -74,4 +74,19 @@ export class TasksService {
 
         return await this.papiClient.addons.data.uuid(this.client.AddonUUID).table(MY_TASKS_SCHEMA_NAME).upsert(task) as Task;
     }
+
+    async getTasksUsage() {
+        return {
+            Title: 'Data',
+            Resources: [
+                {
+                    "Data": "MyTasks",
+                    "Description": "All active user tasks",
+                    "Size": await (await this.getTasks({ fields: ['Key'] })).length
+                },
+            ],
+            ReportingPeriod: "Weekly",
+            "AggregationFunction": "LAST"
+        }
+    }
 }

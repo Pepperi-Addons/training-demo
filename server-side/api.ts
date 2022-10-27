@@ -27,3 +27,12 @@ export async function my_tasks(client: Client, request: Request) {
     throw new Error(`${request.method} isn't supported`);
 }
 
+export async function tasks_usage(client: Client, request: Request) {
+    const tasksService = new TasksService(client);
+    
+    if (request.method === 'GET') {
+        return tasksService.getTasksUsage();
+    }
+
+    throw new Error(`${request.method} isn't supported`);
+}

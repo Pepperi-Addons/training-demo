@@ -78,6 +78,16 @@ export class RelationsService {
         return await this.upsertRelation(blockRelation);
     }
 
+    async upsertUsageRelation() {
+        await this.papiClient.addons.data.relations.upsert({
+            Type: 'AddonAPI',
+            RelationName: 'UsageMonitor',
+            Name: 'TasksUsage',
+            AddonRelativeURL: '/api/tasks_usage',
+            AddonUUID: this.client.AddonUUID
+        })
+    }
+
     async upsertRelations() {
         // For settings block use this.
         const blockRelationSlugName = 'training';
@@ -85,6 +95,8 @@ export class RelationsService {
         const blockRelationName = 'training';
         const blockRelationDescription = 'training demo';
         await this.upsertSettingsRelation(blockRelationSlugName, blockRelationGroupName, blockRelationName, blockRelationDescription);
+
+        await this.upsertUsageRelation();
 
         // For page block use this.
         // // TODO: change to block name (this is the unique relation name and the description that will be on the block).
