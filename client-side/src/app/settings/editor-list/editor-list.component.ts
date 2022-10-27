@@ -46,16 +46,23 @@ export class EditorListComponent implements OnInit {
                       Title: '',
                       Fields: [
                         {
-                            FieldID: 'Field1',
+                            FieldID: 'Title',
                             Type: 'TextBox',
-                            Title: 'Field1',
+                            Title: 'Title',
                             Mandatory: false,
                             ReadOnly: true
                         },
                         {
-                            FieldID: 'Field2',
-                            Type: 'Boolean',
-                            Title: 'Field2',
+                            FieldID: 'Description',
+                            Type: 'TextBox',
+                            Title: 'Desc',
+                            Mandatory: false,
+                            ReadOnly: true
+                        },
+                        {
+                            FieldID: 'StartDateTime',
+                            Type: 'DateAndTime',
+                            Title: 'Starts',
                             Mandatory: false,
                             ReadOnly: true
                         }
@@ -65,22 +72,27 @@ export class EditorListComponent implements OnInit {
                           Width: 25
                         },
                         {
+                          Width: 50
+                        },
+                        {
                           Width: 25
                         }
                       ],
                       FrozenColumnsCount: 0,
                       MinimumColumnWidth: 0
-                    }, items: [{
-                        Key: 'key1',
-                        Field1: 'Hello',
-                        Field2: true
-                    },
-                    {
-                        Key: 'key1',
-                        Field1: 'World',
-                        Field2: false
-                    }], totalCount: 2
-                
+                }, 
+                items: [{
+                    Key: 'key1',
+                    Title: 'My first task',
+                    Description: 'A very long description of a task',
+                    StartDateTime: new Date().toISOString()
+                },
+                {
+                    Key: 'key1',
+                    Field1: 'World',
+                    Field2: false
+                }], 
+                totalCount: 2       
             }
         }
         
