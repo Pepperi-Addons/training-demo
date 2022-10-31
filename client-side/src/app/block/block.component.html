@@ -1,2 +1,3 @@
+<h2 *ngIf="!taskFinished">Perform your task</h2>
 <pep-button [value]="'Start Task'" (buttonClick)="startTask()"></pep-button>
 <h2 *ngIf="taskFinished"> You completed {{taskTitle}}</h2>

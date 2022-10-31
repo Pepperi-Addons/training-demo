@@ -30,7 +30,7 @@ export class BlockComponent implements OnInit {
                 eventKey: "TasksEvent",
                 eventData: {},
                 completion: (data) => {
-                    this.taskTitle = data.task.Title;
+                    this.taskTitle = data.currentTask.Title;
                     this.taskFinished = true;
                 }
             }
