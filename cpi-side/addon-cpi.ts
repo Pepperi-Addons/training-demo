@@ -1,12 +1,12 @@
 import '@pepperi-addons/cpi-node'
 
-export async function load(configuration: any) {
+export async function load() {
     
 }
 
 export const router = Router()
 router.get('/test', (req, res) => {
     res.json({
-        hello: 'World'
+        hello: req.query.name
     })
 })
