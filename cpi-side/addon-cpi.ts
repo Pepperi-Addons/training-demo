@@ -30,24 +30,45 @@ export async function load() {
 
 
 
-    pepperi.events.intercept('RecalculateUIObject', {
-        UIObject: {
-            context: {
-                Name: 'UserHomePage'
-            }
-        }
-    }, async (context) => {
-        console.log("Here is my event")
-        const uiObject: UIObject = context.UIObject;
+    // pepperi.events.intercept('RecalculateUIObject', {
+    //     UIObject: {
+    //         context: {
+    //             Name: 'UserHomePage'
+    //         }
+    //     }
+    // }, async (context) => {
+    //     console.log("Here is my event")
+    //     const uiObject: UIObject = context.UIObject;
 
-        for (const field of uiObject.fields) {
-            field.visible = Math.random() > 0.5
-        }
-    })
+    //     for (const field of uiObject.fields) {
+    //         field.visible = Math.random() > 0.5
+    //     }
+    // })
 
     pepperi.events.intercept('TasksEvent', {}, async (context) => {
+        console.log('in interceptor')
         const service = new TasksService()
         const tasks = await service.getTasks();
+        console.log(tasks)
+
+        const client = context.client;
+        
+        console.log("sending first client action")
+        await client?.alert("Hello", "We will start the task now")
+        console.log("after first client action")
+
+        await client?.showDialog({
+            title: 'Trick Or Treat!',
+            // content: "<html><img src='https://gray-weau-prod.cdn.arcpublishing.com/resizer/i24O6vVlm0PY8a571Tme_hiyFik=/1200x675/smart/filters:quality(85)/cloudfront-us-east-1.images.arcpublishing.com/gray/PPOT24VO3ZALPIIWSMKK6DQR5E.png'></img></html>",
+            content: 'You have to choose one..',
+            actions: [{
+                title: 'Trick',
+                value: false
+            },{
+                title: 'Treat',
+                value: true
+            }]
+        })
 
         return {
             currentTask: tasks[0]

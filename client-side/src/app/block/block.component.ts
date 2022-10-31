@@ -11,6 +11,9 @@ export class BlockComponent implements OnInit {
 
     @Output() hostEvents: EventEmitter<any> = new EventEmitter<any>();
 
+    taskFinished = false;
+    taskTitle = ''
+
     constructor(private translate: TranslateService) {
     }
 
@@ -27,7 +30,8 @@ export class BlockComponent implements OnInit {
                 eventKey: "TasksEvent",
                 eventData: {},
                 completion: (data) => {
-                    alert(JSON.stringify(data))
+                    this.taskTitle = data.task.Title;
+                    this.taskFinished = true;
                 }
             }
         }))
