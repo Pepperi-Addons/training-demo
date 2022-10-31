@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
 
 import { PepAddonService } from '@pepperi-addons/ngx-lib';
+import { PepButtonModule } from '@pepperi-addons/ngx-lib/button';
 
 import { BlockComponent } from './index';
 
@@ -29,7 +30,8 @@ export const routes: Routes = [
                 deps: [PepAddonService]
             }, isolate: false
         }),
-        RouterModule.forChild(routes)
+        RouterModule.forChild(routes),
+        PepButtonModule
     ],
     exports: [BlockComponent],
     providers: [

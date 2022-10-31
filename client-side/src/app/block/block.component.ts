@@ -20,4 +20,16 @@ export class BlockComponent implements OnInit {
     ngOnChanges(e: any): void {
 
     }
+
+    startTask() {
+        window.dispatchEvent(new CustomEvent('emit-event', {
+            detail: {
+                eventKey: "TasksEvent",
+                eventData: {},
+                completion: (data) => {
+                    alert(JSON.stringify(data))
+                }
+            }
+        }))
+    }
 }

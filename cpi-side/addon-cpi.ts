@@ -1,6 +1,7 @@
 import '@pepperi-addons/cpi-node'
 import { UIObject } from '@pepperi-addons/cpi-node';
 import { AddonUUID } from '../addon.config.json'
+import { TasksService } from './tasks.service';
 
 export async function load() {
     console.log('Here i am loading')
@@ -41,6 +42,15 @@ export async function load() {
 
         for (const field of uiObject.fields) {
             field.visible = Math.random() > 0.5
+        }
+    })
+
+    pepperi.events.intercept('TasksEvent', {}, async (context) => {
+        const service = new TasksService()
+        const tasks = await service.getTasks();
+
+        return {
+            currentTask: tasks[0]
         }
     })
 }
