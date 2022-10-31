@@ -9,8 +9,8 @@ import { AppRoutingModule } from './app.routes';
 
 import { SettingsComponent, SettingsModule } from './settings';
 
-// import { BlockModule, BlockComponent } from './block';
-// import { BlockEditorModule, BlockEditorComponent } from './block-editor';
+import { BlockModule, BlockComponent } from './block';
+import { BlockEditorModule, BlockEditorComponent } from './block-editor';
 
 import { config } from './app.config';
 
@@ -50,8 +50,8 @@ export class AppModule implements DoBootstrap {
     ngDoBootstrap() {
         this.pepAddonService.defineCustomElement(`settings-element-${config.AddonUUID}`, SettingsComponent, this.injector);
 
-        // this.pepAddonService.defineCustomElement(`block-element-${config.AddonUUID}`, BlockComponent, this.injector);
-        // this.pepAddonService.defineCustomElement(`block-editor-element-${config.AddonUUID}`, BlockEditorComponent, this.injector);
+        this.pepAddonService.defineCustomElement(`block-element-${config.AddonUUID}`, BlockComponent, this.injector);
+        this.pepAddonService.defineCustomElement(`block-editor-element-${config.AddonUUID}`, BlockEditorComponent, this.injector);
     }
 }
 

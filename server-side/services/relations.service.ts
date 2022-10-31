@@ -99,9 +99,9 @@ export class RelationsService {
         await this.upsertUsageRelation();
 
         // For page block use this.
-        // // TODO: change to block name (this is the unique relation name and the description that will be on the block).
-        // const blockRelationName = 'CHANGE_TO_BLOCK_RELATION_NAME';
-        // await this.upsertBlockRelation(blockRelationName, true);
+        // TODO: change to block name (this is the unique relation name and the description that will be on the block).
+        const pageBlockName = 'TasksBlock';
+        await this.upsertBlockRelation(pageBlockName, true);
 
         // For addon block use this.
         // // TODO: change to block name (this is the unique relation name and the description that will be on the block).
