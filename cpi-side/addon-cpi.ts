@@ -1,8 +1,18 @@
 import '@pepperi-addons/cpi-node'
 import { UIObject } from '@pepperi-addons/cpi-node';
+import { AddonUUID } from '../addon.config.json'
 
 export async function load() {
     console.log('Here i am loading')
+
+
+    const myTasks = await pepperi.api.adal.getList({
+        addon: AddonUUID,
+        table: 'my_tasks'
+    })
+    console.log("My tasks: ",  myTasks)
+
+
     pepperi.events.intercept('RecalculateUIObject', {
         UIObject: {
             context: {

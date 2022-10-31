@@ -31,6 +31,9 @@ export class TasksService {
         await this.papiClient.addons.data.schemes.post({
             Name: MY_TASKS_SCHEMA_NAME,
             Type: 'data',
+            SyncData: {
+                Sync: true
+            },
             Fields: {
                 Title: {
                     Type: 'String'
