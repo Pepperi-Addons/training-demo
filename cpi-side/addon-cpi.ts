@@ -70,9 +70,9 @@ export async function load() {
             }]
         })
 
-        return {
-            currentTask: tasks[0]
-        }
+        // return {
+        //     currentTask: tasks[0]
+        // }
     })
 }
 
