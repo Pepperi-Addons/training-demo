@@ -11,6 +11,7 @@ export interface Task {
     EstimatedDuration: number;
     StartDateTime: string;
     EndDateTime: string;
+    Hidden: boolean;
 }
 
 export class TasksService {
@@ -71,7 +72,7 @@ export class TasksService {
             task.EndDateTime = new Date(new Date().getTime() + 30*24*60*60*1000).toISOString()
         }
 
-        if (!task.Title) {
+        if (!task.Title || task.Hidden) {
             throw new Error("Title is required")
         }
 
