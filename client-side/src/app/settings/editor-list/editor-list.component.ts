@@ -34,76 +34,99 @@ export class EditorListComponent implements OnInit {
     openDialog() {
         
     }
-    
-    listDataSource: IPepGenericListDataSource = {
-        init: async (state) => {
-            const items = await this.getTasks(state);
-            return {
-                dataView: {
-                    Context: {
-                        Name: '',
-                        Profile: { InternalID: 0 },
-                        ScreenSize: 'Landscape'
-                      },
-                      Type: 'Grid',
-                      Title: '',
-                      Fields: [
-                        {
-                            FieldID: 'Title',
-                            Type: 'TextBox',
-                            Title: 'Title',
-                            Mandatory: false,
-                            ReadOnly: true
-                        },
-                        {
-                            FieldID: 'Description',
-                            Type: 'TextBox',
-                            Title: 'Desc',
-                            Mandatory: false,
-                            ReadOnly: true
-                        },
-                        {
-                            FieldID: 'StartDateTime',
-                            Type: 'DateAndTime',
-                            Title: 'Starts',
-                            Mandatory: false,
-                            ReadOnly: true
-                        }
-                      ],
-                      Columns: [
-                        {
-                          Width: 25
-                        },
-                        {
-                          Width: 50
-                        },
-                        {
-                          Width: 25
-                        }
-                      ],
-                      FrozenColumnsCount: 0,
-                      MinimumColumnWidth: 0
-                }, 
-                items: items, 
-                totalCount: items.length       
+
+    getDataSource(): IPepGenericListDataSource {
+        return {
+            init: async (state) => {
+                const items = await this.getTasks(state);
+                return {
+                    dataView: {
+                        Context: {
+                            Name: '',
+                            Profile: { InternalID: 0 },
+                            ScreenSize: 'Landscape'
+                          },
+                          Type: 'Grid',
+                          Title: '',
+                          Fields: [
+                            {
+                                FieldID: 'Title',
+                                Type: 'TextBox',
+                                Title: 'Title',
+                                Mandatory: false,
+                                ReadOnly: true
+                            },
+                            {
+                                FieldID: 'Description',
+                                Type: 'TextBox',
+                                Title: 'Desc',
+                                Mandatory: false,
+                                ReadOnly: true
+                            },
+                            {
+                                FieldID: 'StartDateTime',
+                                Type: 'DateAndTime',
+                                Title: 'Starts',
+                                Mandatory: false,
+                                ReadOnly: true
+                            }
+                          ],
+                          Columns: [
+                            {
+                              Width: 25
+                            },
+                            {
+                              Width: 50
+                            },
+                            {
+                              Width: 25
+                            }
+                          ],
+                          FrozenColumnsCount: 0,
+                          MinimumColumnWidth: 0
+                    }, 
+                    items: items, 
+                    totalCount: items.length       
+                }
             }
+            
         }
-        
     }
+    
+    listDataSource: IPepGenericListDataSource = this.getDataSource()
 
     actions: IPepGenericListActions = {
         get: async (data: PepSelectionData) => {
-            if (data.rows.length) {
-                return [{
-                    title: this.translate.instant("Edit"),
-                    handler: async (data) => {
-                        this.router.navigate([[data?.rows[0]].toString()], {
-                            relativeTo: this.route,
-                            queryParamsHandling: 'merge'
-                        });
-                    }
-                }]
-            } else return []
+            const editAction = {
+                title: this.translate.instant("Edit"),
+                handler: async (data) => {
+                    this.router.navigate([[data?.rows[0]].toString()], {
+                        relativeTo: this.route,
+                        queryParamsHandling: 'merge'
+                    });
+                }
+            };
+
+            const deleteAction = {
+                title: this.translate.instant("Delete"),
+                handler: async (data) => {
+                    await this.deleteTasks(data.rows)
+                    this.listDataSource = this.getDataSource()
+                }
+            };
+
+            const actions = [];
+
+            if (data.rows.length > 0) {
+
+                if (data.rows.length === 1) {
+                    actions.push(editAction);
+                }
+
+                actions.push(deleteAction);
+            }
+
+            return actions;
         }
     }
 
@@ -111,5 +134,9 @@ export class EditorListComponent implements OnInit {
         return this.taskService.getTasks({
             search: state.searchString
         })
+    }
+
+    async deleteTasks(tasks: string[]) {
+        await this.taskService.deleteTasks(tasks)   
     }
 }

@@ -23,4 +23,15 @@ export class TasksService {
 
     return this.pepHttpService.getPapiApiCall(`${this.tasksEndpointURL}?where=${where}`).toPromise();
   }
+
+  async deleteTasks(tasks: string[]) {
+      for (const task of tasks) {
+        console.log("Deleting task: ", task);
+        return this.pepHttpService.postPapiApiCall(this.tasksEndpointURL, {
+          Key: task,
+          Hidden: true,
+          Title: 'Deleting this'
+        }).toPromise()
+      }
+  }
 }
