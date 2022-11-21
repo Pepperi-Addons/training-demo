@@ -112,3 +112,12 @@ router.get('/task-event', async (req, res, next)=> {
         //     currentTask: tasks[0]
         // }
 })
+
+router.get('/test-api', async (req, res, next) => {
+    try {
+        res.json(await pepperi.scripts.key("2c6848c3-b4c0-4dd8-bbe1-c1018f0eafae").run({}, req.context));
+    }
+    catch (err) {
+        next(err)
+    }
+})
